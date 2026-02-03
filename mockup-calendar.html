@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App - Calendar Mockup</title>
+    <meta name="description" content="シンプルで美しいTodoリストアプリ" />
+
+    <!-- iOS PWA Settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="My Todo" />
+    <meta name="theme-color" content="#667eea" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/src/style.css">
+    <style>
+        /* ===================================
+       Calendar Component Styles
+       =================================== */
+        .calendar-section {
+            animation: fadeIn 0.6s ease 0.15s both;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .calendar-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: var(--spacing-xs);
+        }
+
+        .calendar-nav-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-sm);
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition-normal);
+        }
+
+        .calendar-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .week-calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: var(--spacing-xs);
+        }
+
+        .day-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: var(--spacing-sm) var(--spacing-xs);
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-normal);
+            border: 2px solid transparent;
+        }
+
+        .day-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .day-item.today {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .day-item.selected {
+            background: var(--text-light);
+            border-color: var(--text-light);
+        }
+
+        .day-item.selected .day-name,
+        .day-item.selected .day-number {
+            color: var(--color-primary);
+        }
+
+        .day-name {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .day-number {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .day-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--color-accent);
+            margin-top: var(--spacing-xs);
+            opacity: 0;
+        }
+
+        .day-item.has-tasks .day-indicator {
+            opacity: 1;
+        }
+
+        .day-item.selected .day-indicator {
+            background: var(--color-primary);
+        }
+
+        /* Selected Date Display */
+        .selected-date-display {
+            text-align: center;
+            padding: var(--spacing-md) 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .selected-date-display strong {
+            color: var(--text-light);
+        }
+
+        /* Task with date badge */
+        .todo-item .date-badge {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            margin-left: auto;
+            margin-right: var(--spacing-sm);
+        }
+
+        .todo-item .date-badge.overdue {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--color-danger);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <header class="app-header">
+            <h1>📝 My Todo</h1>
+            <p class="subtitle">今日のタスクを管理しよう</p>
+        </header>
+
+        <main class="main-content">
+            <!-- Calendar Section (NEW) -->
+            <div class="calendar-section glass-card" style="padding: var(--spacing-md);">
+                <div class="calendar-header">
+                    <span class="calendar-title">2026年2月</span>
+                    <div class="calendar-nav">
+                        <button class="calendar-nav-btn">‹</button>
+                        <button class="calendar-nav-btn">›</button>
+                    </div>
+                </div>
+                <div class="week-calendar">
+                    <div class="day-item">
+                        <span class="day-name">月</span>
+                        <span class="day-number">27</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item">
+                        <span class="day-name">火</span>
+                        <span class="day-number">28</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item">
+                        <span class="day-name">水</span>
+                        <span class="day-number">29</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item">
+                        <span class="day-name">木</span>
+                        <span class="day-number">30</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item">
+                        <span class="day-name">金</span>
+                        <span class="day-number">31</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item has-tasks">
+                        <span class="day-name">土</span>
+                        <span class="day-number">1</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item">
+                        <span class="day-name">日</span>
+                        <span class="day-number">2</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                </div>
+                <!-- Second Week -->
+                <div class="week-calendar" style="margin-top: var(--spacing-xs);">
+                    <div class="day-item today selected has-tasks">
+                        <span class="day-name">月</span>
+                        <span class="day-number">3</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item has-tasks">
+                        <span class="day-name">火</span>
+                        <span class="day-number">4</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item">
+                        <span class="day-name">水</span>
+                        <span class="day-number">5</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item has-tasks">
+                        <span class="day-name">木</span>
+                        <span class="day-number">6</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item">
+                        <span class="day-name">金</span>
+                        <span class="day-number">7</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item">
+                        <span class="day-name">土</span>
+                        <span class="day-number">8</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                    <div class="day-item">
+                        <span class="day-name">日</span>
+                        <span class="day-number">9</span>
+                        <span class="day-indicator"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="selected-date-display">
+                <strong>2月3日（月）</strong> のタスク
+            </div>
+
+            <div class="input-area glass-card">
+                <input type="text" id="todo-input" class="todo-input" placeholder="新しいタスクを入力..." />
+                <button id="add-btn" class="add-btn">
+                    <span class="btn-icon">+</span>
+                    追加
+                </button>
+            </div>
+
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">すべて</button>
+                <button class="filter-tab" data-filter="active">未完了</button>
+                <button class="filter-tab" data-filter="completed">完了済み</button>
+            </div>
+
+            <ul id="todo-list" class="todo-list">
+                <li class="todo-item glass-card">
+                    <label class="checkbox-container">
+                        <input type="checkbox" />
+                        <span class="checkmark"></span>
+                    </label>
+                    <span class="todo-text">朝のミーティングに参加する</span>
+                    <span class="date-badge">今日</span>
+                    <button class="delete-btn" aria-label="削除" style="opacity: 1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                        </svg>
+                    </button>
+                </li>
+
+                <li class="todo-item glass-card completed">
+                    <label class="checkbox-container">
+                        <input type="checkbox" checked />
+                        <span class="checkmark"></span>
+                    </label>
+                    <span class="todo-text">プロジェクト計画書を作成する</span>
+                    <span class="date-badge">今日</span>
+                    <button class="delete-btn" aria-label="削除" style="opacity: 1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                        </svg>
+                    </button>
+                </li>
+
+                <li class="todo-item glass-card">
+                    <label class="checkbox-container">
+                        <input type="checkbox" />
+                        <span class="checkmark"></span>
+                    </label>
+                    <span class="todo-text">新しいデザインをレビューする</span>
+                    <span class="date-badge">今日</span>
+                    <button class="delete-btn" aria-label="削除" style="opacity: 1;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2">
+                            </path>
+                        </svg>
+                    </button>
+                </li>
+            </ul>
+
+            <div class="stats glass-card">
+                <span class="stat-item">📊 全タスク: <strong id="stat-total">3</strong></span>
+                <span class="stat-item">✅ 完了: <strong id="stat-completed">1</strong></span>
+                <span class="stat-item">⏳ 残り: <strong id="stat-remaining">2</strong></span>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <p>© 2026 My Todo App</p>
+        </footer>
+    </div>
+</body>
+
+</html>

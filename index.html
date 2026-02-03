@@ -27,6 +27,28 @@
     </header>
 
     <main class="main-content">
+      <!-- Calendar Section -->
+      <div id="calendar-section" class="calendar-section glass-card">
+        <div class="calendar-header">
+          <span id="calendar-title" class="calendar-title">2026年2月</span>
+          <div class="calendar-nav">
+            <button id="prev-month" class="calendar-nav-btn">‹</button>
+            <button id="today-btn" class="calendar-nav-btn today-btn">今日</button>
+            <button id="next-month" class="calendar-nav-btn">›</button>
+          </div>
+        </div>
+        <div class="weekday-header">
+          <span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span><span>日</span>
+        </div>
+        <div id="calendar-grid" class="calendar-grid">
+          <!-- Calendar days will be rendered here -->
+        </div>
+      </div>
+
+      <div id="selected-date-display" class="selected-date-display">
+        <strong>2月3日（月）</strong> のタスク
+      </div>
+
       <div class="input-area glass-card">
         <input type="text" id="todo-input" class="todo-input" placeholder="新しいタスクを入力..." />
         <button id="add-btn" class="add-btn">
