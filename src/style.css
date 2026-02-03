@@ -739,8 +739,8 @@ body {
 }
 
 .todo-item .date-badge.today-badge {
-  background: rgba(99, 102, 241, 0.3);
-  color: var(--color-primary-light);
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--text-muted);
 }
 
 .todo-item .date-badge.overdue {
